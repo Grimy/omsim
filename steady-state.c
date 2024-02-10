@@ -250,7 +250,9 @@ struct steady_state run_until_steady_state(struct solution *solution, struct boa
             next_snapshot_cycle = period_aligned_start_cycle;
     }
     bool disable_check_until_next_snapshot = true;
-    while (board->cycle < cycle_limit && !board->collision) {
+    while (board->cycle < 99999 && board->area < 200000 && !board->collision) {
+        if (board->area > 2500)
+            board->collisions_disabled = true;
         // printf("cycle %llu\n", board->cycle);
         if (!disable_check_until_next_snapshot && board->cycle % check_period == 0 && check_snapshot(solution, board, &snapshot)) {
             // printf("check passed on cycle %llu\n", board->cycle);

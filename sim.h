@@ -458,6 +458,7 @@ struct board {
     // used for checking infinite products.
     struct marked_positions marked;
 
+    bool collisions_disabled;
     bool collision;
     struct vector collision_location;
     const char *collision_reason;

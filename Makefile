@@ -2,8 +2,9 @@
 
 CFLAGS=-O2 -std=c11 -pedantic -Wall -Wno-missing-braces
 LDLIBS=-lm
-LLVMCC=/opt/homebrew/Cellar/llvm/17.0.6/bin/clang
-EMFLAGS=--no-entry -s ALLOW_MEMORY_GROWTH=1 -s ALLOW_TABLE_GROWTH=1 --profiling-funcs -DNDEBUG
+
+LLVMCC=/opt/homebrew/Cellar/llvm/12.0.1/bin/clang
+EMFLAGS=--no-entry -s ALLOW_MEMORY_GROWTH=1 -s ALLOW_TABLE_GROWTH=1 -Oz --profiling-funcs -DNDEBUG
 EMEXPORTS1=_malloc,_free,_verifier_create_from_bytes,_verifier_create_from_bytes_without_copying
 EMEXPORTS2=_verifier_destroy,_verifier_set_cycle_limit,_verifier_error,_verifier_error_clear,_verifier_evaluate_metric
 EMEXPORTS3=_verifier_set_fails_on_wrong_output,_verifier_set_fails_on_wrong_output_bonds,_verifier_wrong_output_index
@@ -15,7 +16,7 @@ HEADER=collision.h decode.h parse.h sim.h steady-state.h verifier.h
 SOURCE=collision.c decode.c parse.c sim.c steady-state.c verifier.c
 
 omsim: $(HEADER) $(SOURCE) Makefile main.c
-	$(CC) $(CFLAGS) -g -o $@ $(SOURCE) main.c $(LDLIBS)
+	$(CC) $(CFLAGS) -o $@ $(SOURCE) main.c $(LDLIBS)
 
 libverify.so: $(HEADER) $(SOURCE) Makefile
 	$(CC) $(CFLAGS) -shared -fpic -o $@ $(SOURCE) $(LDLIBS)
